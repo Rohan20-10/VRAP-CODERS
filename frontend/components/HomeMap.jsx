@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {GoogleMap, useLoadScript, Markerf} from "@react-google-maps/api";
+import {GoogleMap, useLoadScript} from "@react-google-maps/api";
 // import {VITE_GOOGLE_MAPS_API_KEY} from "dotenv";
 
 const MapComponent = () => {
@@ -19,7 +19,7 @@ const MapComponent = () => {
             mapContainerStyle={{
                 height: "800px",
             }}
-            center={{selectedLoaction}}
+            center={{selectedLocation}}
             zoom={13}
             onLoad={onMapLoad}
             ></GoogleMap>

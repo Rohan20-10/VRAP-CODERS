@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenStreetMap with OpenLayers</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@6.10.1/dist/ol.css" type="text/css">
+    <script src="https://cdn.jsdelivr.net/npm/ol@6.10.1/dist/ol.js"></script>
+</head>
+<body>
+    <div id="map" class="map"></div>
+    <script>
+        // Initialize the map
+        var map = new ol.Map({
+            target: 'map',
+            layers: [
+                new ol.layer.Tile({
+                    source: new ol.source.OSM()
+                })
+            ],
+            view: new ol.View({
+                center: ol.proj.fromLonLat([0, 0]),
+                zoom: 2
+            })
+        });
+
+        // Get user's live location
+        navigator.geolocation.getCurrentPosition(function(position) {
+            var userLocation = ol.proj.fromLonLat([position.coords.longitude, position.coords.latitude]);
+
+            // Add marker for user's location
+            var userMarker = new ol.Feature({
+                geometry: new ol.geom.Point(userLocation)
+            });
+
+            var userMarkerStyle = new ol.style.Style({
+                image: new ol.style.Circle({
+                    radius: 6,
+                    fill: new ol.style.Fill({color: 'blue'}),
+                    stroke: new ol.style.Stroke({
+                        color: 'white',
+                        width: 2
+                    })
+                })
+            });
+
+            userMarker.setStyle(userMarkerStyle);
+
+            var userMarkerLayer = new ol.layer.Vector({
+                source: new ol.source.Vector({
+                    features: [userMarker]
+                })
+            });
+
+            map.addLayer(userMarkerLayer);
+
+            // Set the map view to the user's location
+            map.getView().setCenter(userLocation);
+            map.getView().setZoom(12);
+        });
+
+        // Display multiple routes
+        // You need to use a routing service API and parse the response to display routes on the map
+        // This part depends on the specific routing service you choose to use
+    </script>
+</body>
+</html>
